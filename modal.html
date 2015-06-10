@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,
+	maximum-scale=1.0,user-scalable=no">
+	<title>Document</title>
+	<style type="text/css">
+		body{ height: 1000px;}
+		.modal{ display: none; }
+		.modal-bac{ position: fixed; z-index: 100; background: #ccc; top: 0; bottom: 0;
+			left: 0; right: 0;}
+		.modal-con{ position: absolute; z-index: 101; width: 200px; height: 100px;
+			top: 50%; background: #fff; overflow: auto;}
+		.modal-text{ width: 300px;}
+	</style>
+</head>
+<body>
+
+
+<button class="btn">弹出</button>
+
+<div class="modal">
+	<div class="modal-bac"></div>
+	<div class="modal-con">
+		<button class="modal-hide">hide</button>
+		<div class="modal-text">123</div>
+	</div>
+</div>
+
+<script src="js/zepto.min.js"></script>
+<script>
+$(function () {
+
+	$('.btn').on('click', function () {
+		$('.modal').show();
+	});
+	$('.modal-bac').on('touchmove', function (e) {
+		e.preventDefault();
+	});
+
+	$('.modal-hide').on('tap',function(){
+		$('.modal').hide();
+	})
+});
+</script>
+</body>
+</html>

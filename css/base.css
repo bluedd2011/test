@@ -1,0 +1,11 @@
+html, body{ width: 100%; height: 100%; padding: 0; margin: 0; overflow: hidden;}
+*{ box-sizing: border-box; -webkit-tap-highlight-color: rgba(0,0,0,0);}
+.pages{ width: 100%; height: 100%; overflow: hidden;}
+.page{ position: absolute;width: 100%; height: 100%; top: 0; z-index: 0;}
+.page-1:nth-child(1){ border:4px solid blue;}
+
+
+.cells{ display: box; display: -webkit-box;}
+.cells-middle{ -webkit-box-align: center;}
+.cell-fit{ -webkit-box-flex: 1;}
+

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,
+	maximum-scale=1.0,user-scalable=no">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/base.css">
+
+	<style type="text/css">
+		.modal-simp{ background-color: #333; color: #fff; border-radius: 2px; font-size: 16px; line-height: 16px;
+			padding: 8px 10px; opacity: 0; position: absolute; left: 50%; top: 40%; width: 64%; margin-left: -32%; text-align: center;}
+		.ani-modal-simp{
+			animation: ani-modal-simp 3s ease;
+			-webkit-animation:  ani-modal-simp 3s ease;
+		}
+		@-webkit-keyframes ani-modal-simp {
+			0%{ opacity: 0; top: 35%;}
+			25%{ opacity: 1; top: 40%;}
+			75%{ opacity: 1; top: 40%;}
+			100%{ opacity: 0; top: 45%;}
+		}
+	</style>
+</head>
+
+<body>
+<!--不可用-->
+<div class="pages">
+	<button onclick="ku.ui.modalSimp('我是一个简易模态框')">弹出一个简易模态框</button>
+
+	<!--<div class="modal modal-simp ani-modal-simp">-->
+		<!--我是一个简易模态框-->
+	<!--</div>-->
+</div>
+
+<script type="text/javascript" src="js/zepto.js"></script>
+<script type="text/javascript" src="js/ku.js"></script>
+
+</body>
+</html>

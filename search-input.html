@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,
+	maximum-scale=1.0,user-scalable=no">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/base.css">
+	<style type="text/css">
+		.input-search{ width: 100%; padding: 5px 10px; background-color: #eee;}
+		.input-search:focus{ background: #aaa;}
+		.input-search input{ width: 100%; border: none; outline: none; border-radius: 4px; padding: 5px;}
+		.input-search input:focus{ background: #aaa;}
+		.input-search-clear{ color: #333; padding: 0 10px; display: none;}
+
+
+	</style>
+</head>
+<body>
+<!--不可用-->
+<div class="pages">
+	<div class="page page-1">
+		<div class="cells" style="height: 20px;">
+			<div class="cell-fit" style="background: #ccc;"></div>
+			<div class="cell-2"></div>
+			<div class="cell-3"></div>
+		</div>
+
+		<div class="input-search cells cells-middle">
+			<div class="cell-fit">
+				<input type="text">
+			</div>
+			<span class="input-search-clear">取消</span>
+		</div>
+	</div>
+</div>
+
+<script src="js/zepto.min.js"></script>
+<script>
+$(function () {
+
+	$('.input-search').on('focus','input',function(){
+		var $input=$(this),
+			$wrap=$input.parent().parent(),
+			$clear=$wrap.find('.input-search-clear')
+		;
+		$clear.show();
+	}).on('blur','input',function(){
+		var $input=$(this),
+			$wrap=$input.parent().parent(),
+			$clear=$wrap.find('.input-search-clear')
+		;
+		$clear.hide();
+	});
+
+});
+</script>
+</body>
+</html>

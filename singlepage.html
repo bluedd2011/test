@@ -26,7 +26,21 @@
 <body>
 <!--不可用-->
 <div class="pages">
-	<button onclick="ku.ui.modalSimp('我是一个简易模态框')">弹出一个简易模态框</button>
+	<div class="page" id="pageMain">
+		<div class="hearder cells">
+			<div class="header-title cell-fit">title</div>
+		</div>
+		<div class="section">
+			<button section-target="pagePrev">弹出</button>
+		</div>
+	</div>
+
+	<div class="page" id="pagePrev">
+		<div class="hearder cells">
+			<div class="header-prev header-btn" section section-type="prev" section-target="mainPage">prev</div>
+			<div class="header-title cell-fit">section-prev</div>
+		</div>
+	</div>
 </div>
 
 <script type="text/javascript" src="js/zepto.js"></script>

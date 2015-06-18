@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,
+	maximum-scale=1.0,user-scalable=no">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/base.css">
+
+
+</head>
+
+<body>
+<!--不可用-->
+<p id="demo">点击按钮获取您当前坐标（可能需要比较长的时间获取）：</p>
+<button onclick="getLocation()">点我</button>
+<script>
+	var x=document.getElementById("demo");
+	function getLocation()
+	{
+		alert("start");
+		if (navigator.geolocation)
+		{
+			navigator.geolocation.getCurrentPosition(showPosition);//{enableHighAcuracy :true}
+		}
+		else{x.innerHTML="该浏览器不支持获取地理位置。";}
+	}
+	function showPosition(position)
+	{
+		x.innerHTML="纬度: " + position.coords.latitude +
+		"<br>经度: " + position.coords.longitude;
+	}
+</script>
+
+<script type="text/javascript" src="js/zepto.js"></script>
+<script type="text/javascript" src="js/ku.js"></script>
+
+</body>
+</html>

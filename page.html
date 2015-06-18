@@ -9,25 +9,37 @@
 
 		html, body{ width: 100%; height: 100%; padding: 0; margin: 0; overflow: hidden;}
 		*{ box-sizing: border-box;}
-		.pages{ width: 100%; height: 100%; overflow: hidden;}
-		.page{ position: absolute;width: 100%; height: 100%; top: 0; z-index: 0;}
+		.pages{ width: 100%; height: 40%; overflow: hidden; margin-top: 20px; position: relative;}
+		.page{ position: absolute;width: 100%; height: 100%; top: 0; z-index: 0; transform: translate3d(0, 0, 0); background-color: #fff;}
 		.page-1:nth-child(1){ border:4px solid blue;}
 		.page-2:nth-child(2){ border:4px solid green; display: none;}
 		.page-3:nth-child(3){ border:4px solid peru; display: none;}
 
-		.page-show{
-			-webkit-animation: pageShow 0.5s ease;
-			animation: pageShow 5s ease;}
-
-		@keyframes pageShow {
-			from{ left: -100%; display: none; }
-			to{ left: 0; display: block; }
+		.page-show {
+			-webkit-animation: pageFromRightToCenter 400ms forwards;
 		}
 
-		@-webkit-keyframes pageShow {
-			from{ left: 100%; display: none;}
-			to{ left: 0; display: block;}
+		@-webkit-keyframes pageFromRightToCenter {
+			from {
+				transform: translate3d(100%, 0, 0);
+				-webkit-transform: translate3d(100%, 0, 0);
+				-ms-transform: translate3d(100%, 0, 0);
+				-o-transform: translate3d(100%, 0, 0);
+				-moz-transform: translate3d(100%, 0, 0);
+			}
+			to {
+				transform: translate3d(0, 0, 0);
+				-webkit-transform: translate3d(0, 0, 0);
+				-ms-transform: translate3d(0, 0, 0);
+				-o-transform: translate3d(0, 0, 0);
+				-moz-transform: translate3d(0, 0, 0);
+			}
 		}
+
+		/*@-webkit-keyframes pageShow {*/
+			/*from{ left: 100%; display: none;}*/
+			/*to{ left: 0; display: block;}*/
+		/*}*/
 	</style>
 </head>
 <body>

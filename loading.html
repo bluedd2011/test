@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,
+	maximum-scale=1.0,user-scalable=no">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/base.css">
+
+	<style>
+
+	</style>
+</head>
+
+<body>
+	<!--<div class="loading">-->
+		<!--<div class="loading-img"></div>-->
+	<!--</div>-->
+
+<script type="text/javascript" src="js/zepto.js"></script>
+<script type="text/javascript" src="js/ku.js"></script>
+
+<script>
+	$(function () {
+
+		setTimeout(function () {
+			ku.ui.loading.show();
+			setTimeout(function () {
+				ku.ui.loading.hide();
+			},2000);
+		},1000);
+	});
+</script>
+</body>
+</html>

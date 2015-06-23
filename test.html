@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        .left_nav_new_subnav{ display: none;}
+    </style>
+</head>
+<body>
+
+<script>
+    $(function(){
+
+        function IsPC() {
+            var userAgentInfo = navigator.userAgent;
+            var Agents = ["Android", "iPhone",
+                "SymbianOS", "Windows Phone",
+                "iPad", "iPod"];
+            var flag = true;
+            for (var v = 0; v < Agents.length; v++) {
+                if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                    flag = false;
+                    break;
+                }
+            }
+            return flag;
+        }
+        function toggle($obj){
+            if($obj.css('display')==='none'){
+                $obj.css('display','block');
+            }else{
+                $obj.css('display','none');
+            }
+        }
+
+        if(IsPC()){
+            $('.left_nav>li').bind('mouseenter',function(e){
+                $('.text').html('mouseenter');
+
+                toggle($(this).find('.left_nav_new_subnav'));
+            });
+            $('.left_nav>li').bind('mouseleave',function(e){
+                $('.text').html('mouseleave');
+
+                toggle($(this).find('.left_nav_new_subnav'));
+            });
+        }else {
+            $('.left_nav>li').click(function (e) {
+                $('.text').html('click');
+                $(this).siblings().find('.left_nav_new_subnav').hide();
+                toggle($(this).find('.left_nav_new_subnav'));
+            });
+        }
+
+    })
+</script>
+
+    <div class="main_left">
+
+        <ul class="left_nav">
+
+            <li><a>指数型基金
+
+                <span><img src="/website/images/hot_icon.png" width="30" height="20"></span>
+
+            </a>
+                <ul class="left_nav_new_subnav">
+
+                    <li><a href="/column.do?mode=searchtopic&amp;pageno=0&amp;channelid=2&amp;categoryid=52&amp;childcategoryid=53">天弘深证成份指数LOF
+                    </a></li>
+
+                </ul></li>
+
+            <li><a>债券型基金
+
+            </a>
+                <ul class="left_nav_new_subnav">
+
+                    <li><a href="/column.do?mode=searchtopic&amp;pageno=0&amp;channelid=2&amp;categoryid=401&amp;childcategoryid=402">天弘债券发起式
+                    </a></li>
+
+                    <li><a href="/column.do?mode=searchtopic&amp;pageno=0&amp;channelid=2&amp;categoryid=2535&amp;childcategoryid=2536">天弘稳利定期开放
+                    </a></li>
+
+                    <li><a href="/column.do?mode=searchtopic&amp;pageno=0&amp;channelid=2&amp;categoryid=123&amp;childcategoryid=612">天弘永利债券
+                    </a></li>
+
+                    <li><a href="/column.do?mode=searchtopic&amp;pageno=0&amp;channelid=2&amp;categoryid=107&amp;childcategoryid=108">天弘添利分级债券
+                    </a></li>
+
+                    <li><a href="/column.do?mode=searchtopic&amp;pageno=0&amp;channelid=2&amp;categoryid=255&amp;childcategoryid=256">天弘丰利分级债券
+                    </a></li>
+
+                </ul></li>
+
+            <li><a>偏债混合型基金
+
+            </a>
+                <ul class="left_nav_new_subnav" style="display: block;">
+
+                </ul></li>
+
+            <li><a>货币型基金
+
+            </a>
+                <ul class="left_nav_new_subnav">
+
+                    <li><a href="/column.do?mode=searchtopic&amp;pageno=0&amp;channelid=2&amp;categoryid=80&amp;childcategoryid=1776">天弘永定价值成长股票
+                    </a></li>
+
+                    <li><a href="/column.do?mode=searchtopic&amp;pageno=0&amp;channelid=2&amp;categoryid=351&amp;childcategoryid=352">天弘现金管家货币
+                    </a></li>
+
+                </ul></li>
+
+            <li><a>偏股混合型基金
+
+            </a>
+                <ul class="left_nav_new_subnav" style="display: block;">
+
+                </ul></li>
+
+            <li><a>股票型基金
+
+            </a>
+                <ul class="left_nav_new_subnav">
+
+                    <li><a href="/column.do?mode=searchtopic&amp;pageno=0&amp;channelid=2&amp;categoryid=80&amp;childcategoryid=1776">天弘永定价值成长股票
+                    </a></li>
+
+                    <li><a href="/column.do?mode=searchtopic&amp;pageno=0&amp;channelid=2&amp;categoryid=132&amp;childcategoryid=1778">天弘周期策略股票
+                    </a></li>
+
+                </ul></li>
+
+
+        </ul>
+
+    </div>
+
+<div class="text"></div>
+<div class="pc"></div>
+</body>
+</html>

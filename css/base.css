@@ -10,24 +10,56 @@ html, body{ width: 100%; height: 100%; padding: 0; margin: 0; overflow: hidden;}
 
 
 
-.cells{ display: box; display: -webkit-box;}
+.cells{ display: -webkit-box;}
 .cells-middle{ -webkit-box-align: center;}
 .cell-fit{ -webkit-box-flex: 1;}
 
 
 
 
-
-.section-show{ -webkit-animation: section-show 0.4;}
-
-.section-hide{ -webkit-animation: section-hide 0.4;}
-
-@-webkit-keyframes section-show {
-    from{ opacity: 0;}
-    to{ opacity: 1;}
+/*页面切换动效*/
+.pageFromRightToCenter {
+    animation: pageFromRightToCenter 400ms forwards;
+    -webkit-animation: pageFromRightToCenter 400ms forwards;
+}
+@-webkit-keyframes pageFromRightToCenter {
+    from {
+        transform: translate3d(100%, 0, 0);
+        -webkit-transform: translate3d(100%, 0, 0);
+        -ms-transform: translate3d(100%, 0, 0);
+        -o-transform: translate3d(100%, 0, 0);
+        -moz-transform: translate3d(100%, 0, 0);
+    }
+    to {
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
+        -ms-transform: translate3d(0, 0, 0);
+        -o-transform: translate3d(0, 0, 0);
+        -moz-transform: translate3d(0, 0, 0);
+    }
+}
+.pageFromCenterToRight {
+    animation: pageFromCenterToRight 400ms forwards;
+    -webkit-animation: pageFromCenterToRight 400ms forwards;
+}
+@-webkit-keyframes pageFromCenterToRight {
+    from {
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
+        -ms-transform: translate3d(0, 0, 0);
+        -o-transform: translate3d(0, 0, 0);
+        -moz-transform: translate3d(0, 0, 0);
+    }
+    to {
+        transform: translate3d(100%, 0, 0);
+        -webkit-transform: translate3d(100%, 0, 0);
+        -ms-transform: translate3d(100%, 0, 0);
+        -o-transform: translate3d(100%, 0, 0);
+        -moz-transform: translate3d(100%, 0, 0);
+    }
 }
 
-@-webkit-keyframes section-hide {
-    from{ opacity: 1;}
-    to{ opacity: 0;}
-}
+/*页面加载中动效*/
+.loading{ position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-color: #eee;}
+.loading-img{ background: url("../image/loading/loading5.gif") center no-repeat; width: 32px; height: 32px;
+    position: absolute; left: 50%; top: 50%; margin-left: -16px; margin-top: -16px; background-size: 32px 32px;}

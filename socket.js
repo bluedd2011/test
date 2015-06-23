@@ -22,7 +22,6 @@ function handler (req, res) {
 
 var sockets=[],i=0;
 io.sockets.on('connection', function (socket) {
-    sockets[i]=socket;
     socket.emit('news', { hello: 'world' });
     socket.on('my other event', function (data) {
         console.log(data);

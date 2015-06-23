@@ -4,34 +4,116 @@
 
 
 var ku=(function ($) {
-    var $body=$('body');
-
-    var section= (function () {
-        var config={
-            show:'.section-show',
-            hide:'.section-hide',
-            current_z:'0',
-            other_z:'10'
-        };
-        var $sections=$('[section]');
-
-        $('#mainPage').css('z-index',config.current_z);
-        $sections.on('tap','[section-prev]', function () {
-            var $this=$(this),
-                target=$this.attr('section-target')
-            ;
-
-        });
-
-        //显示前一个
-        function sectionPrev($current,target){
-            var $target=$('#'+target);//目标
-            $current.css('z-index','0');
-            $target.css('z-index','10').addClass('.');
+    var $body=$('body'),
+        viewUrl='views/',   //视图的主路径
+        zIndex={            //多个绝对定位的z轴级别
+            pageNow:    1,  //当前显示页
+            header:     1,  //头部
+            nav:        1,  //导航
+            loading:    10  //加载动画
         }
-    })();
+    ;
+
 
     return {
+        init: function () {
+            //页面切换功能初始化
+            //第一步增加切换动画
+            //第二步，下一页不存在时检查该脚本中的缓存
+            //第三步，如果缓存不存在，使用ajax去获取视图
+            //视图的文件命名为page-name的值，要获取到的子视图为page-sub-name
+            function pageInit() {
+                var $pages = $('[page-name]'),
+                    pageZ = zIndex.pageNow,
+                    tpls = {},
+                    status=true //true待命阶段、false执行中
+                ;
+
+                function pageNext($next, $now) {
+                    status=false;
+                    pageZ++;
+                    $next.css('z-index', pageZ);
+                    $now.css('z-index', pageZ - 1);
+                    $next.show().addClass('pageFromRightToCenter');
+                    setTimeout(function () {
+                        $next.removeClass('pageFromRightToCenter');
+                        $now.hide();
+                        status=true;
+                    }, 400);
+                }
+
+                function pagePrev($prev, $now) {
+                    status=false;
+                    pageZ--;
+                    $prev.css('z-index', pageZ);
+                    $now.css('z-index', pageZ + 1);
+                    $prev.show();
+                    $now.addClass('pageFromCenterToRight');
+                    setTimeout(function () {
+                        $now.removeClass('pageFromCenterToRight');
+                        $now.hide();
+                        status=true;
+                    }, 400);
+                }
+
+                function toLoad(view, success) {
+                    var parts = view.split(/\s/),
+                        selector = parts[1]
+                        ;
+                    ku.ui.loading.show();
+                    setTimeout(function () {
+                        $.get(viewUrl + view, function (response) {
+                            ku.ui.loading.hide();
+                            success($(selector ?
+                                $(document.createElement('div')).html(response).find(selector).html() :
+                                response));
+                        });
+                    }, 2000);
+
+                }
+
+                $pages.each(function (index, item) {
+                    var $page = $(this),
+                        pageName = $page.attr('page-name')
+                        ;
+                    $page.on('click', '[page-prev]', function () {
+                        var $this = $(this),
+                            prev = $this.attr('page-prev'),
+                            $prev = $page.find('[page-sub-name=' + prev + ']')
+                            ;
+                        $prev = $prev.length > 0 || tpls[prev] ? $prev || tpls[prev].clone() : null;
+                        if ($prev) {
+                            pagePrev($prev, $this);
+                        } else {
+                            toLoad(pageName + '.html ' + prev, function ($dom) {
+                                tpls[prev] = $dom;
+                                $page.append($dom);
+                                pagePrev($dom, $this);
+                            });
+                        }
+                    });
+
+                    $page.on('click', '[page-next]', function () {
+                        var $this = $(this),
+                            next = $this.attr('page-next'),
+                            $next = $page.find('[page-sub-name=' + next + ']')
+                            ;
+                        $next = $next.length > 0 || tpls[next] ? $next || tpls[next].clone() : null;
+                        if ($next) {
+                            pageNext($next, $this);
+                        } else {
+                            toLoad(pageName + '.html #' + next, function ($dom) {
+                                tpls[next] = $dom;
+                                $page.append($dom);
+                                pageNext($dom, $this);
+                            });
+                        }
+                    });
+                });
+            }
+
+            pageInit();
+        },
         ui:{
             modalSimp:function(text){
                 var $dom=$('<div class="modal modal-simp ani-modal-simp"></div>');
@@ -43,7 +125,29 @@ var ku=(function ($) {
                 setTimeout(function () {
                     $dom_live.remove();
                 },3000);
-            }
+            },
+            //加载中动画
+            //api:{
+            //  status      当前状态,
+            //  show()      显示
+            //  hide()      隐藏并删除
+            // }
+            loading: (function () {
+                var $dom=$('<div class="loading"><div class="loading-img"></div></div>'),
+                    _status='hide';
+                $dom.css('z-index',zIndex.loading);
+                return {
+                    status:_status,
+                    show: function () {
+                        _status='show';
+                        $body.append($dom);
+                    },
+                    hide: function () {
+                        _status='hide';
+                        $dom.remove();
+                    }
+                };
+            })()
         },
         Url:(function () {
             var objUrl= function (url) {
@@ -112,6 +216,10 @@ var ku=(function ($) {
             return new objUrl();
         })() ,
         //用于模板中的值的替换
+        //index:{
+        //  html    html字符串
+        //  fields  键值的对象
+        // }
         tpl:function(html,fields){
             var backupHtml=html;
             var names={};//存储模板中的名称与对象的对应关系
@@ -139,7 +247,6 @@ var ku=(function ($) {
                     backupHtml=backupHtml.replace(new RegExp(names[i],'g'),fields[i]||'');
                 }
             }
-
             return backupHtml;
         }
     }
@@ -147,4 +254,3 @@ var ku=(function ($) {
 
 
 
-//ku.tpl('<a>{ name }</a>',{name:'woo'});

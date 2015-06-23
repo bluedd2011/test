@@ -4,6 +4,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,minimum-scale=1.0,
 	maximum-scale=1.0,user-scalable=no">
+	<link rel="stylesheet" href="css/base.css">
+
 	<title>Document</title>
 	<style type="text/css">
 
@@ -15,69 +17,21 @@
 		.page-2:nth-child(2){ border:4px solid green; display: none;}
 		.page-3:nth-child(3){ border:4px solid peru; display: none;}
 
-		.page-show {
-			-webkit-animation: pageFromRightToCenter 400ms forwards;
-		}
-
-		@-webkit-keyframes pageFromRightToCenter {
-			from {
-				transform: translate3d(100%, 0, 0);
-				-webkit-transform: translate3d(100%, 0, 0);
-				-ms-transform: translate3d(100%, 0, 0);
-				-o-transform: translate3d(100%, 0, 0);
-				-moz-transform: translate3d(100%, 0, 0);
-			}
-			to {
-				transform: translate3d(0, 0, 0);
-				-webkit-transform: translate3d(0, 0, 0);
-				-ms-transform: translate3d(0, 0, 0);
-				-o-transform: translate3d(0, 0, 0);
-				-moz-transform: translate3d(0, 0, 0);
-			}
-		}
-
-		/*@-webkit-keyframes pageShow {*/
-			/*from{ left: 100%; display: none;}*/
-			/*to{ left: 0; display: block;}*/
-		/*}*/
 	</style>
 </head>
 <body>
 <!--不可用-->
-<div class="pages">
-	<div class="page page-1">1</div>
-	<div class="page page-2">2</div>
-	<div class="page page-3">3</div>
+<div class="pages" page-name="page-home">
+	<div class="page page-1" page-sub-name="page-home-1" page-next="page-home-2">1</div>
+	<div class="page page-2" page-sub-name="page-home-2" page-next="page-home-3">2</div>
 </div>
 
-<script src="js/zepto.min.js"></script>
+<script src="js/zepto.js"></script>
+<script src="js/ku.js"></script>
 <script>
+
 $(function () {
-	var Page=(function () {
-		var $pages=$('.pages');
-		var $pageArr=$pages.children();
-		var index=0;
-		var count=$pageArr.length;
-
-		$pages.on('click','div',function(){
-			if(count<=1){ return false;}
-			var $nowPage=$(this);
-			var $nextPage;
-			index=$nowPage.index();
-
-			if(index+1<count){
-				$nextPage=$pageArr.eq(index+1);
-			}else{
-				$nextPage=$pageArr.eq(0);
-			}
-
-			$nextPage.show().css('z-index','1').addClass('page-show');
-			$nowPage.css('z-index','0');
-			setTimeout(function () {
-				$nextPage.removeClass('page-show');
-			},1000);
-		});
-	})();
+	ku.init();
 });
 </script>
 </body>

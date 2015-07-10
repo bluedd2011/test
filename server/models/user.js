@@ -3,7 +3,6 @@
  */
 var db=require('./db').db;
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
 var md5=require('./md5').md5;
 
 var UsersSchema = new mongoose.Schema({
@@ -11,8 +10,8 @@ var UsersSchema = new mongoose.Schema({
     password:String,
     md5:String,
     time:{
-        type:date,
-        default:date.now
+        type:Date,
+        default:Date.now
     }
 });
 
@@ -21,14 +20,16 @@ var UserInfosSchema=new mongoose.Schema({
     city:String,
     sex:String,
     age:Number,
+    publish_order_id:String,
     order_tpl_id:String,
-    signature:String
+    signature:String,
+    apply_orders:Array
 });
 
 
 
 //内部方法 用户名是否存在
-function isExist(model,name,cb){
+function _isExist(model,name,cb){
     model.find({user_name:name}, function (err,user) {
         if(err){
             console.log(err);
@@ -43,7 +44,7 @@ function isExist(model,name,cb){
 //静态方法 注册
 UsersSchema.statics.register= function (json,cb) {
     var thisModel=this.model('users');
-    isExist(thisModel,json.user_name,function(user){
+    _isExist(thisModel,json.user_name,function(user){
         if(user.length<=0){
             json.md5=md5(json.user_name+json.password);
             thisModel.create(json, function (err,user) {
@@ -51,7 +52,7 @@ UsersSchema.statics.register= function (json,cb) {
                     console.log(err);
                     return;
                 }
-                console.log(user[0].md5);
+                console.log(user.md5);
                 if(cb) {
                     cb(err, user);
                 }
@@ -65,7 +66,7 @@ UsersSchema.statics.register= function (json,cb) {
 //静态方法 登录
 UsersSchema.statics.login= function (json, cb) {
     var thisModel=this.model('users');
-    isExist(thisModel,json.user_name,function(user){
+    _isExist(thisModel,json.user_name,function(user){
         if(user.length===1){
             console.log(user[0].md5);
             if(cb){
@@ -81,13 +82,13 @@ UsersSchema.statics.login= function (json, cb) {
 
 //静态方法 用户名是否存在
 UsersSchema.statics.isExist= function (name, cb) {
-    this.model('users').find({user_name:name}, function () {
+    this.model('users').findOne({user_name:name}, function (err,doc) {
         if(err){
             console.log(err);
             return;
         }
         if(cb) {
-            cb(user);
+            cb(doc);
         }
     });
 }
@@ -119,20 +120,45 @@ UserInfosSchema.statics.complete= function (json, cb) {
     });
 }
 
+UserInfosSchema.statics.getUserInfo= function (id, cb) {
+    this.model('userinfos').findById(id, function (err,doc) {
+        if(err){
+            console.log(err);
+            return;
+        }
+        if(cb) {
+            cb(doc);
+        }
+    });
+}
+
 var UserInfoModel = db.model('userinfos',UserInfosSchema);
 var UserModel = db.model('users',UsersSchema);
 
-exports.user={
-    schema:UsersSchema,
-    model:UserModel
+
+
+
+
+
+
+
+
+
+
+exports.ep={
+    register:function(json){
+        UserModel.register(json);
+    },
+    login:function(json){
+        UserModel.login(json);
+    },
+    isExist:function(name,cb){
+        UserModel.isExist(name,cb);
+    },
+    save:function(json){
+        UserModel.save(json);
+    },
+    getUserInfo:function(id,cb){
+        UserInfoModel.getUserInfo(id,cb);
+    }
 };
-
-
-//var s = new Schema({name: {type: String, index: true})
-//var s = new Schema({loc: {type: [Number], index: 'hashed'})
-//var s = new Schema({loc: {type: [Number], index: '2d', sparse: true})
-//var s = new Schema({loc: {type: [Number], index: {type: '2dsphere', sparse: true}})
-//var s = new Schema({date: {type: Date, index: {unique: true, expires: '1d'}})
-//Schema.path('my.path').index(true);
-//Schema.path('my.date').index({expires: 60});
-//Schema.path('my.path').index({unique: true, sparse: true});

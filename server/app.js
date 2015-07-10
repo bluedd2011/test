@@ -4,6 +4,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var MongoStore = require('connect-mongodb')(session);
+//var SessionStore=require('session-mongoose')(express);
+
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -20,6 +25,14 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+// 设置 Session
+app.use(session({
+  genid: function(req) {
+    return genuuid() // use UUIDs for session IDs
+  },
+  secret: 'keyboard cat',
+  name:'firstapp'
+}))
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
@@ -30,6 +43,14 @@ app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
+});
+
+app.get("/", function(req, res) {
+  console.log(session);  //装了n多次，没有把调试工具下载弄好，实在悲哀，只能每次都log，求走过路过的大神指导～
+  var session = req.session;
+  session.count = session.count || 0;
+  var n = session.count++;
+  res.send('hello, session id:' + session.id + ' count:' + n);
 });
 
 // error handlers
